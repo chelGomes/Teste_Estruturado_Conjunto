@@ -2,10 +2,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.stream.Collectors;
 
 public class ConjuntoNTest {
         // Define o conjunto N
         private final Set<Integer> N = Set.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+
 
         @Test
         void testPertenceAoConjunto() {
@@ -32,7 +34,7 @@ public class ConjuntoNTest {
         void testTamanhoDoConjunto() {
             assertEquals(9, N.size(), "O tamanho do conjunto deveria ser 9");
         }
-        
+
         @Test
         void testSubconjunto() {
             assertTrue(N.containsAll(Set.of(3, 5, 7)), "O conjunto deveria conter {3, 5, 7}");
@@ -44,6 +46,29 @@ public class ConjuntoNTest {
             assertEquals(1, N.stream().min(Integer::compareTo).orElseThrow(), "O menor número deveria ser 1");
             assertEquals(9, N.stream().max(Integer::compareTo).orElseThrow(), "O maior número deveria ser 9");
         }
+
+    @Test
+    void testPertinencia() {
+        assertTrue(N.contains(1), "O número 1 deveria pertencer ao conjunto");
+        assertTrue(N.contains(2), "O número 2 não deveria pertencer ao conjunto");
+        assertTrue(N.contains(3), "O número 3 não deveria pertencer ao conjunto");
+        assertTrue(N.contains(7), "O número 7 não deveria pertencer ao conjunto");
+        assertTrue(N.contains(8), "O número 8 não deveria pertencer ao conjunto");
     }
+
+    @Test
+    void testOrdenacaoComoString() {
+        // Ordena e converte para String
+        String resultado = N.stream() //Ordena os elementos
+                .sorted() //Converte cada número para String.
+                .map(String::valueOf) //Une os números em uma única String
+                .collect(Collectors.joining(", ")); // Garante que a string gerada corresponde ao esperado.
+
+        String esperado = "1, 2, 3, 4, 5, 6, 7, 8, 9";
+
+        assertEquals(esperado, resultado, "O conjunto deveria estar ordenado corretamente");
+    }
+
+}
 
 
